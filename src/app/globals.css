@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+/**
+ * Quantora design tokens.
+ *
+ * Two numeric scales, both going from "most prominent" to "least prominent":
+ *  - surface-* : page chrome, from the darkest canvas up to raised elements
+ *  - ink-*     : text, from the brightest heading down to the faintest label
+ * Lines and accents follow the same idea.
+ */
+@theme {
+  --font-sans: var(--font-mulish), "Mulish", system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), Georgia, serif;
+
+  --color-base: #0a0b0c;
+  --color-surface-100: #0c0e10;
+  --color-surface-200: #0e1013;
+  --color-surface-300: #101215;
+  --color-surface-400: #14171b;
+  --color-surface-500: #171a1f;
+  --color-surface-600: #191c21;
+
+  --color-ink-100: #ecece8;
+  --color-ink-200: #bdc3cb;
+  --color-ink-300: #9ba1a9;
+  --color-ink-400: #7c828b;
+  --color-ink-500: #6c727b;
+  --color-ink-600: #5e646d;
+  --color-ink-700: #4e545c;
+
+  --color-line-100: #15181c;
+  --color-line-200: #16191d;
+  --color-line-300: #1a1e23;
+  --color-line-400: #1c2026;
+  --color-line-500: #232833;
+  --color-line-600: #2a2f36;
+
+  --color-accent: #6b7bd6;
+  --color-accent-light: #9eabe6;
+  --color-accent-soft: #8e9ce0;
+  --color-accent-strong: #4b57a8;
+  --color-accent-strong-hover: #5a67bc;
+  --color-accent-deep: #39447a;
+  --color-accent-deep-hover: #434f8c;
+
+  --color-positive: #6fa383;
+  --color-caution: #c99a3c;
+  --color-critical: #c1605a;
+}
+
+/**
+ * Auto-fitting grid whose minimum track width never exceeds the available
+ * space, so columns collapse on small screens instead of overflowing.
+ * Usage: `auto-grid-320` => repeat(auto-fit, minmax(min(320px, 100%), 1fr)).
+ */
+@utility auto-grid-* {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(calc(--value(integer) * 1px), 100%), 1fr));
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-base);
+    color: var(--color-ink-100);
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Sticky header is 62px tall; keep anchored sections clear of it. */
+  :target {
+    scroll-margin-top: 84px;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-accent) 32%, transparent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent-soft);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
